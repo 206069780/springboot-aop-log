@@ -34,7 +34,8 @@ public class ControllerLog {
         System.out.println("\n");
         log.info("==========================  " + getCurrentMethodName(point) + " starting =============================");
         long beginTime = System.currentTimeMillis();
-        long time = System.currentTimeMillis() - beginTime;
+        log.info("开始时间：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:sss").format(new Date()));
+
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = null;
         if (attributes.getRequest() != null) {
@@ -47,8 +48,8 @@ public class ControllerLog {
         log.info("请求参数 : " + Arrays.toString(getParams(point)));
         Object result = point.proceed();
         log.info("返回结果 : " + result);
-        log.info("开始时间：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:sss").format(new Date()));
         log.info("结束时间：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:sss").format(new Date()));
+        long time = System.currentTimeMillis() - beginTime;
         log.info("耗时 : " + time);
         log.info("==========================  " + getCurrentMethodName(point) + " ending =============================\n");
         return result;
