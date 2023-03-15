@@ -11,6 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -40,19 +41,21 @@ public class ControllerLog {
         HttpServletRequest request = null;
         if (attributes.getRequest() != null) {
             request = attributes.getRequest();
-        }
-        log.info("API ：" + request.getRequestURI());
-        log.info("类方法 : " + point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName());
+            log.info("API ：" + request.getRequestURI());
+            log.info("类方法 : " + point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName());
 
-        log.info("请求方式：" + request.getMethod());
-        log.info("请求参数 : " + Arrays.toString(getParams(point)));
-        Object result = point.proceed();
-        log.info("返回结果 : " + result);
-        log.info("结束时间：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:sss").format(new Date()));
-        long time = System.currentTimeMillis() - beginTime;
-        log.info("耗时 : " + time);
-        log.info("==========================  " + getCurrentMethodName(point) + " ending =============================\n");
-        return result;
+            log.info("请求方式：" + request.getMethod());
+            log.info("请求参数 : " + Arrays.toString(getParams(point)));
+            Object result = point.proceed();
+            log.info("返回结果 : " + result);
+            log.info("结束时间：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:sss").format(new Date()));
+            long time = System.currentTimeMillis() - beginTime;
+            log.info("耗时 : " + time);
+            log.info("==========================  " + getCurrentMethodName(point) + " ending =============================\n");
+            return result;
+        }
+
+        return null;
     }
 
 //    @Before(value = "logPointCut()")
